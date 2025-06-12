@@ -1,49 +1,49 @@
 # Projeto Levenshtein com PocketPy
 
 ## Descrição
-Este projeto implementa o algoritmo de distância de Levenshtein em C com integração ao interpretador Python através da biblioteca PocketPy. O projeto permite calcular a similaridade entre strings tanto em código C nativo quanto através de scripts Python embarcados.
+Este projeto apresenta uma implementação do algoritmo de distância de Levenshtein em linguagem C, com suporte à execução de scripts Python incorporados por meio da biblioteca PocketPy. A proposta é permitir o cálculo da similaridade entre strings, tanto via código C puro quanto por scripts Python embutidos.
 
-## Funcionalidades
-**Cálculo de Distância de Levenshtein**: Implementação eficiente do algoritmo para medir a diferença entre duas strings
+## Principais Recursos
+**Cálculo de Distância de Levenshtein**: Algoritmo otimizado para comparação entre duas cadeias de caracteres.
 
-**Integração Python**: Execução de scripts Python embarcados através do PocketPy
+**Integração Python**: Suporte à execução de scripts Python diretamente no programa em C.
 
-**Interface C/Python**: Comunicação bidirecional entre código C e Python
+**Interface C ↔ Python**: Integração bidirecional entre o núcleo em C e scripts Python usando a PocketPy.
 
-**Exemplos Práticos**: Scripts demonstrando o uso das funcionalidades 
+**Exemplos Práticos**: Scripts e arquivos de exemplo demonstrando o uso prático da integração.
 
-## Pré-requisitos
-- Compilador GCC ou Clang
-- Make
+## Requisitos Necessários
+- Compilador compatível (GCC ou Clang)
+- Ferramenta Make
 - Sistema operacional compatível (Linux, macOS, Windows com MinGW)
 
-## Estruturas dos Arquivos
+## Organização dos Arquivos
 **main.c**
-- Ponto de entrada do programa
-- Inicialização do PocketPy
-- Inicialização e execução do arquivo script.py
-- Exporta a função distance() para Python
-- Integração entre código C e Python
+- Arquivo principal da aplicação
+- Responsável por inicializar o interpretador PocketPy
+- Carrega e executa o script script.py
+- Registra a função distance() no ambiente Python
+- Conecta a lógica em C com o script Python
 
 **levenstein.c/.h**
-- Implementação do algoritmo de distãncia de Levenshtein (MIT License)
-- Duas funções principais:
+- Código-fonte do algoritmo de Levenshtein (sob licença MIT)
+- Funções:
   - levenstein()
   - levenstein_n()
-- Algoritmo otimizado com uso eficiente de memória
-- Interface para integração com Python
+- Estrutura eficiente com consumo otimizado de memória
+- Preparado para interoperar com Python via PocketPy
 
 **pocketpy.c/.h**
-- Biblioteca para embarcamento do interpretador Python
-- Interface C para execução de código Python
-- Gerenciamento de memória e objetos Python
+- Módulo para embutir o interpretador Python
+- Interface C para executar código Python em tempo de execução
+- Responsável por gerenciar a criação e o ciclo de vida dos objetos Python
 
 **Makefile**
-O Makefile inclui os seguintes targets:
-- **make** ou **make all**: Compila o projeto completo
-- **make main**: Compila apenas o executável principal
-- **make run**: Compila e executa o programa
-- **make clean**: Remove todos os arquivos objeto e executável
+Contém as instruções de compilação e execução:
+- **make** ou **make all**: Compila todos os módulos do projeto
+- **make main**: Compila apenas o arquivo principal
+- **make run**: Compila e executa a aplicação
+- **make clean**: Remove arquivos intermediários e o executável final
 
 
 ## Release versionado para download.
