@@ -2,53 +2,45 @@
 #include "pocketpy.h"
 #include "levenshtein.h"
 
-FILE *file;
+static bool cal_distance(int argc, py_Ref argv) {
+  PY_CHECK_ARGC(2);
+  PY_CHECK_ARG_TYPE(0, tp_str);
+  PY_CHECK_ARG_TYPE(1, tp_str);
+  const char *p1 = py_tostr(py_arg(0));
+  const char *p2 = py_tostr(py_arg(1));
+  py_newint(py_retval(), levenshtein(p1, p2));
+  return true;
+}
 
-int main(int argc, char *argv[]) {
+int main() {
 
-  int tamLinha;
-  int tam = 0;
-  char linha[50];
-  char name1[50];
-  char name2[50];
-  char *script;
+  FILE *file;
 
-  if (argc < 2) {
-    printf("Uso %s <scrpit.py>\n", argv[0]);
-    return 0;
-  }
-
-  script = argv[1];
-  file = fopen(script, "r");
+  char script[10000];
+  char diretorio[] = "/mnt/c/Users/lucax/Desktop/1_trabalho/script.py";
+  file = fopen(diretorio, "rb");
 
   if (file == NULL) {
-    printf("Erro ao abrir o arquivo: %s\n", script);
-  } 
-
-  fseek(file, 0, SEEK_END);
-  tam = ftell(file);
-  fseek(file, 0, SEEK_SET);
-  printf("Arquivo %s aberto com sucesso!\n", script);
-  
-  fgets(linha, sizeof(linha), file);
-
-  while (linha != NULL) {
-    tamLinha = strlen(linha);
-    strncpy(name1, linha + 2, tamLinha - 2);
-    name1[tamLinha - 2] = '\0';  // termina string
-
-    fgets(linha, sizeof(linha), file);
-
-    tamLinha = strlen(linha);
-    strncpy(name2, linha + 2, tamLinha - 2);
-    name2[tamLinha - 2] = '\0';  // termina string
-
-    int resultado = levenshtein(name1, name2);
-
-    printf("%d", resultado);
-
+    fprintf(stderr, "\033[1;31m[ERRO]\033[0m Falha ao abrir o arquivo.\n");
+    return 1;
   }
 
-  fclose(file);
+  // Initialize pocketpy
+  py_initialize();
+
+  size_t bytesRead = fread(script, 1, sizeof(script) - 1, file);
+  script[bytesRead] = '\0';
+  fprintf(stderr, "\033[1;32mArquivo aberto com sucesso!\033[0m\n");
+
+  py_GlobalRef mod = py_getmodule("__main__");
+  py_bindfunc(mod, "cal_distance", cal_distance);
+
+  if (!py_exec(script, "", EXEC_MODE, NULL)) {
+    py_printexc();
+    goto finalize;
+  }
+
+  finalize:
+  py_finalize();
   return 0;
 }

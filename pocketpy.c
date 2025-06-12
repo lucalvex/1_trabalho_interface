@@ -16541,6 +16541,11 @@ void pk__add_module_easing() {
 
 #define NANOS_PER_SEC 1000000000
 
+#ifndef TIME_UTC
+#define TIME_UTC 1
+#endif
+
+
 #ifndef __circle__
     int64_t time_ns() {
         struct timespec tms;
